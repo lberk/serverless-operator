@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+strimzi_deployments="strimzi-cluster-operator my-cluster-entity-operator"
+
 function install_strimzi {
   strimzi_version=`curl https://github.com/strimzi/strimzi-kafka-operator/releases/latest |  awk -F 'tag/' '{print $2}' | awk -F '"' '{print $1}' 2>/dev/null`
   header "Strimzi install"
@@ -13,7 +15,7 @@ function install_strimzi {
   oc -n kafka apply -f "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${strimzi_version}/examples/kafka/kafka-persistent.yaml"
 
   header "Waiting for Strimzi to become ready"
-  oc wait deployment --all --timeout=-1s --for=condition=Available -n kafka
+  oc wait deployment ${strimzi_deployments} --timeout=-1s --for=condition=Available -n kafka
 }
 
 function uninstall_strimzi {
