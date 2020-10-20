@@ -32,9 +32,9 @@ if [[ $TEST_KNATIVE_KAFKA == true ]]; then
 (( !failed )) && downstream_serving_e2e_tests || failed=6
 (( !failed )) && downstream_eventing_e2e_tests || failed=7
 
-# if [[ $TEST_KNATIVE_KAFKA == true ]]; then
-#  (( !failed )) && downstream_knative_kafka_e2e_tests || failed=8
-# fi
+if [[ $TEST_KNATIVE_KAFKA == true ]]; then
+ (( !failed )) && downstream_knative_kafka_e2e_tests || failed=8
+fi
 
 (( failed )) && dump_state
 (( failed )) && exit $failed
